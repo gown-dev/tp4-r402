@@ -8,7 +8,7 @@ import cook.domain.model.Pizza;
 
 public class Oven {
 
-    Map<UUID, Pizza> pizzas = new HashMap<>();
+    private final Map<UUID, Pizza> pizzas = new HashMap<>();
 
     public Oven() {
 

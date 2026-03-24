@@ -4,7 +4,7 @@ public class Pizza {
 
     private final PizzaRecipe recette;
     private int cookingTime = 0;
-    private final PizzaState state;
+    private PizzaState state;
 
     public Pizza(final PizzaRecipe recette) {
         this.recette = recette;
@@ -24,7 +24,13 @@ public class Pizza {
     }
 
     public void incrementCookingTime() {
-        this.cookingTime++;
+        cookingTime++;
+
+        if (cookingTime >= recette.getCookingTime()) {
+            state = PizzaState.Cooked;
+        } else {
+            state = PizzaState.Undercooked;
+        }
     }
 
 }
