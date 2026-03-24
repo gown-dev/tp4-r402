@@ -9,7 +9,6 @@ import cook.domain.model.PizzaRecipe;
 import cook.domain.model.PizzaState;
 import cook.domain.services.Oven;
 import cook.domain.services.Pizzaiolo;
-import cook.domain.tasks.IncreaseCookingTime;
 import cook.domain.tasks.schedulers.MockTickScheduler;
 import cook.domain.tasks.schedulers.TickScheduler;
 
@@ -30,9 +29,10 @@ public class PizzeriaTests {
         final Oven oven = new Oven();
         oven.putPizza(queen);
 
-        final IncreaseCookingTime task = new IncreaseCookingTime(oven);
-        final TickScheduler schelduler = new MockTickScheduler(60);
-        schelduler.schedule(task);
+        final TickScheduler scheduler = new MockTickScheduler(60);
+        oven.setTickScheduler(scheduler);
+
+        scheduler.start();
 
         assertEquals(60, queen.getCookingTime());
         assertEquals(PizzaState.Cooked, queen.getState());
@@ -45,9 +45,10 @@ public class PizzeriaTests {
         final Oven oven = new Oven();
         oven.putPizza(queen);
 
-        final IncreaseCookingTime task = new IncreaseCookingTime(oven);
-        final TickScheduler schelduler = new MockTickScheduler(40);
-        schelduler.schedule(task);
+        final TickScheduler scheduler = new MockTickScheduler(40);
+        oven.setTickScheduler(scheduler);
+
+        scheduler.start();
 
         assertEquals(40, queen.getCookingTime());
         assertEquals(PizzaState.Undercooked, queen.getState());

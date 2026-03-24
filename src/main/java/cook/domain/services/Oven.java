@@ -5,13 +5,17 @@ import java.util.Map;
 import java.util.UUID;
 
 import cook.domain.model.Pizza;
+import cook.domain.tasks.IncreaseCookingTime;
+import cook.domain.tasks.schedulers.TickScheduler;
 
 public class Oven {
 
+    private TickScheduler tickScheduler;
     private final Map<UUID, Pizza> pizzas = new HashMap<>();
 
-    public Oven() {
-
+    public void setTickScheduler(final TickScheduler tickScheduler) {
+        this.tickScheduler = tickScheduler;
+        this.tickScheduler.schedule(new IncreaseCookingTime(this));
     }
 
     public UUID putPizza(final Pizza pizza) {

@@ -5,6 +5,9 @@ import java.util.TimerTask;
 public interface TickScheduler {
 
     void schedule(TimerTask task);
-    void cancel();
+
+    void start();
+
+    void stop();
 
 }

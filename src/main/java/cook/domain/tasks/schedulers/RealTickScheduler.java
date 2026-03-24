@@ -6,14 +6,20 @@ import java.util.TimerTask;
 public class RealTickScheduler implements TickScheduler {
 
     private final Timer timer = new Timer();
+    private TimerTask task;
 
     @Override
     public void schedule(final TimerTask task) {
-        timer.schedule(task, 1000);
+        this.task = task;
     }
 
     @Override
-    public void cancel() {
+    public void start() {
+        timer.scheduleAtFixedRate(task, 0, 1000);
+    }
+
+    @Override
+    public void stop() {
         this.timer.cancel();
     }
 
