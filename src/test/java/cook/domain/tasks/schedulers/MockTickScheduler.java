@@ -1,7 +1,6 @@
 package cook.domain.tasks.schedulers;
 
-import cook.domain.tasks.IncreaseCookingTime;
-import cook.domain.tasks.schedulers.TickScheduler;
+import java.util.TimerTask;
 
 public class MockTickScheduler implements TickScheduler {
 
@@ -13,10 +12,10 @@ public class MockTickScheduler implements TickScheduler {
     }
 
     @Override
-    public void schedule(final IncreaseCookingTime increaseCookingTime) {
-        if (count < times) {
+    public void schedule(final TimerTask task) {
+        while (count < times) {
             count++;
-            increaseCookingTime.run();
+            task.run();
         }
     }
 

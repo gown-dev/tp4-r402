@@ -14,8 +14,14 @@ public class Oven {
 
     }
 
+    public UUID putPizza(final Pizza pizza) {
+        final UUID pizzaId = UUID.randomUUID();
+        pizzas.put(pizzaId, pizza);
+        return pizzaId;
+    }
+
     public void incrementCookingTime() {
-        pizzas.values().forEach(pizza -> pizza.incrementCookingTime());
+        pizzas.values().forEach(Pizza::incrementCookingTime);
     }
 
 }

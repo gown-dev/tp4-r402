@@ -1,10 +1,10 @@
 package cook.domain.tasks.schedulers;
 
-import cook.domain.tasks.IncreaseCookingTime;
+import java.util.TimerTask;
 
 public interface TickScheduler {
 
-    void schedule(IncreaseCookingTime increaseCookingTime);
+    void schedule(TimerTask task);
     void cancel();
 
 }

@@ -7,7 +7,11 @@ import org.junit.jupiter.api.Test;
 import cook.domain.model.Pizza;
 import cook.domain.model.PizzaRecipe;
 import cook.domain.model.PizzaState;
+import cook.domain.services.Oven;
 import cook.domain.services.Pizzaiolo;
+import cook.domain.tasks.IncreaseCookingTime;
+import cook.domain.tasks.schedulers.MockTickScheduler;
+import cook.domain.tasks.schedulers.TickScheduler;
 
 public class PizzeriaTests {
 
@@ -17,6 +21,36 @@ public class PizzeriaTests {
         final Pizza queen = pizzaiolo.preparePizza(PizzaRecipe.Queen);
         assertEquals(PizzaRecipe.Queen, queen.getRecette());
         assertEquals(PizzaState.Prepared, queen.getState());
+    }
+
+    @Test
+    void should_cook_a_queen_pizza() {
+        final Pizzaiolo pizzaiolo = new Pizzaiolo();
+        final Pizza queen = pizzaiolo.preparePizza(PizzaRecipe.Queen);
+        final Oven oven = new Oven();
+        oven.putPizza(queen);
+
+        final IncreaseCookingTime task = new IncreaseCookingTime(oven);
+        final TickScheduler schelduler = new MockTickScheduler(60);
+        schelduler.schedule(task);
+
+        assertEquals(60, queen.getCookingTime());
+        assertEquals(PizzaState.Cooked, queen.getState());
+    }
+
+    @Test
+    void should_undercook_a_queen_pizza() {
+        final Pizzaiolo pizzaiolo = new Pizzaiolo();
+        final Pizza queen = pizzaiolo.preparePizza(PizzaRecipe.Queen);
+        final Oven oven = new Oven();
+        oven.putPizza(queen);
+
+        final IncreaseCookingTime task = new IncreaseCookingTime(oven);
+        final TickScheduler schelduler = new MockTickScheduler(40);
+        schelduler.schedule(task);
+
+        assertEquals(40, queen.getCookingTime());
+        assertEquals(PizzaState.Undercooked, queen.getState());
     }
 
 }

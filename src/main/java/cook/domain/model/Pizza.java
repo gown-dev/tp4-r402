@@ -15,6 +15,10 @@ public class Pizza {
         return recette;
     }
 
+    public int getCookingTime() {
+        return cookingTime;
+    }
+
     public PizzaState getState() {
         return state;
     }
